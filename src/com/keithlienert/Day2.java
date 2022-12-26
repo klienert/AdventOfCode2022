@@ -1,6 +1,5 @@
 package com.keithlienert;
 
-import javax.swing.plaf.synth.SynthUI;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,7 +20,8 @@ public class Day2 {
 
     /**
      * Takes in a file and returns it into a String
-     *
+     * scoreRound() --> Part one
+     * partTwo() --> Part two
      * @return the string result of the input file
      */
     public void readFile(String filePath) {
@@ -37,7 +37,6 @@ public class Day2 {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        return result;
     }
 
     /**
@@ -85,7 +84,6 @@ public class Day2 {
         }
     }
 
-
     /**
      * Takes a single line of a string and compares the first entry & second entry for scoring
      * @param str the input from the file
@@ -123,25 +121,24 @@ public class Day2 {
 
         gameMap(); // sets up the numbers for the game pieces
         String[] match = str.split(" "); // match[0] - opponent; match[1] - end of round
-//        System.out.print("match: " + match[0] + " | " + match[1] + "  ");
+
         if (match[1].equals("Y")) { // DRAW
             score += gamePieceScore(gameMap.get(match[0])) + DRAW;
-//            System.out.println("Draw: " + score + "  -- " + gameMap.get(match[0]));
+
         } else if (match[1].equals("Z")) {  // WIN
             if (gameMap.get(match[0]) == ROCK) { //
                 score += WIN + PAPER;
-//                System.out.println("Win: " + score + "  -- " + gameMap.get(match[0]));
 
             } else if (gameMap.get(match[0]) == PAPER) { //
                 score += WIN + SCISSORS;
-//                System.out.println("Win: " + score + "  -- " + gameMap.get(match[0]));
+
             } else { //
                 score += WIN + ROCK;
-//                System.out.println("Win: " + score + "  -- " + gameMap.get(match[0]));
+
             }
         } else { // lose
             score += losePiece(gameMap().get(match[0]));
-//            System.out.println("Loss: " + score + "  -- " + gameMap.get(match[0]));
+
         }
         System.out.println(score);
         return score;
@@ -155,6 +152,4 @@ public class Day2 {
             day2.readFile("input/day2/input2.txt");
 
         }
-
-
 }

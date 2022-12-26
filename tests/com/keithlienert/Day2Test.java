@@ -12,8 +12,6 @@ public class Day2Test {
     String TEST2 = "B X";
     String TEST3 = "C Z";
 
-
-
 //    @Test
 //    void scoreTEST1() {
 //        assertEquals(8, dayTwo.scoreRound(TEST1));
@@ -43,7 +41,4 @@ public class Day2Test {
     void scoreTEST6() {
         assertEquals(7, dayTwo.partTwo(TEST3));
     }
-
-
-
 }
