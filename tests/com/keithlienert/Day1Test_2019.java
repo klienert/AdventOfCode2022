@@ -1,12 +1,12 @@
 package com.keithlienert;
 
 import org.junit.jupiter.api.Test;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Day1Test_2019 {
@@ -37,12 +37,15 @@ class Day1Test_2019 {
     void determineFuelAllModule() throws FileNotFoundException {
         ArrayList<Integer> listOfModMasses = new ArrayList<>();
         // access file
-        File text = new File("input/day1_input.txt");
-        Scanner sc = new Scanner(text);
-        while(sc.hasNextLine()) {
-            listOfModMasses.add(Integer.parseInt(sc.nextLine()));
+        File text = new File("input/day1/input.txt");
+        try (Scanner sc = new Scanner(text)) {
+            while (sc.hasNextLine()) {
+//                listOfModMasses.add(parseInt(sc.nextLine()));
+                listOfModMasses.add(Integer.valueOf(sc.nextLine()));
+            }
+            assertEquals(3437969, day12019.determineFuelAllModule(listOfModMasses));
         }
-        assertEquals(3397667, day12019.determineFuelAllModule(listOfModMasses));
-
     }
 }
+
+// 3437969

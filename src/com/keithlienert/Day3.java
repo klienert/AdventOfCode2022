@@ -4,113 +4,68 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Day3 {
-    HashMap<Character, Integer> map;
-    TreeMap<Character, Integer> conversionMap;
-
-    /**
-     * Takes a string, splits into two 'compartments'
-     * Finds the common letter (upper or lowercase) in both compartments
-     * @param  items  the list of items in a 'rucksack'
-     * @return  String of the common letter (single letter)
-     */
-    public Character findSharedItem(String items) {
-        map = new HashMap<>();
-        char res = 0;
-        int len = items.length();
-        int half = Math.abs(len / 2);
-
-        // split string into 2 separate strings
-        String s1 = items.substring(0, half);
-        String s2 = items.substring(half, len);
-
-        // HashMap for first string
-        for (int i = 0; i < s1.length(); i++) {
-            if (map.get(s1.charAt(i)) == null) {
-                map.put(s1.charAt(i), 1);
-            } else {
-                map.put(s1.charAt(i), map.get(s1.charAt(i)) + 1);
-            }
-        }
-        // iterate through 2nd string, checking for K/V match
-        for (int i = 0; i < s2.length(); i++) {
-            if (map.containsKey(s2.charAt(i))) {
-                res = s2.charAt(i);
-//                results.add(String.valueOf(s2.charAt(i)));
-            }
-        }
-        return res;
-    }
+    String alphabet = "0abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * Takes in a file and returns it into a String
      * scoreRound() --> Part one
      * @return the string result of the input file
      */
-    public String readFile(String filePath) {
-        int sum = 0;
-        String result = "";
-
+    public static ArrayList<String> readFile(String filePath) {
+        ArrayList<String> newList = new ArrayList<>();
         try {
             BufferedReader input = new BufferedReader(new FileReader(filePath));
             while (input.ready()) {
-              sum += priorityConversion(findSharedItem(input.readLine()));
-//                result += input.readLine() + "\n";
+                newList.add(input.readLine());
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Sum: " + sum);
-        return result;
+        return newList;
     }
 
     /**
-     * Builds a conversion map for letters to numbers of priority.
+     * Takes a string, splits into two 'compartments'
+     * Finds the common letter (upper or lowercase) in both compartments
+     * @param  items  the list of items in a 'rucksack'
+     * @return  Character of the common letter (single letter)
      */
-    public void buildConversionMap() {
-        conversionMap = new TreeMap<>();
-        String a = "abcdefghikjlmnopqrstuvwxyzABCDEFGHIKJLMNOPQRSTUVWXYZ";
-        for (int i = 0; i < a.length(); i++) {
-            conversionMap.put(a.charAt(i), i + 1);
+    public int priorityTotal(ArrayList<String> items) {
+        int total = 0;
+        int score = 0;
+        for (String s : items) { // iterate through arrayList of strings (each rucksack)
+            int[] chars = new int[s.length()];
+            int i = 0;
+            for (String t : s.split("")) {
+                chars[i] = alphabet.indexOf(t);
+                i++;
+            }
+            int[] first = Arrays.copyOfRange(chars, 0, chars.length / 2);
+            int[] second = Arrays.copyOfRange(chars, chars.length / 2, chars.length);
+
+            for (int j = 0; j < first.length; j++) {
+                for (int k = 0; k < second.length; k++ ) {
+                    if (first[j] == second[k]) {
+                        score = first[j];
+//                        System.out.println();
+                    }
+                }
+            }
+            System.out.print("SCORE: " + score);
+            total += score;
+            System.out.println("     TOTAL: " + total);
         }
+        return total;
     }
-
-    /**
-     * Outputs an int representing a priority number for each char entered
-     * Utilizes the buildConversion() map to create the priority number
-     * @param item the item
-     * @return the int
-     */
-    public int priorityConversion(char item) {
-        int result = 0;
-        // take the string and assign it a value (a-z, A-Z)
-        buildConversionMap();
-
-        // use a sortedMap for conversion
-        if (conversionMap.containsKey(item)) {
-            conversionMap.get(item);
-            result = conversionMap.get(item);
-        }
-        return result;
-    }
-
 
     public static void main(String[] args) {
         Day3 dayThree = new Day3();
-
-        System.out.println(dayThree.readFile("input/day3/test.txt"));
-        System.out.println(dayThree.readFile("input/day3/input3.txt"));
-
-
-
-
-
+        ArrayList<String> newList = readFile("input/day3/input3.txt");
+        dayThree.priorityTotal(newList);
     }
-
-
 }

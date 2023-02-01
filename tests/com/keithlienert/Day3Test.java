@@ -1,57 +1,43 @@
 package com.keithlienert;
 
 import org.junit.jupiter.api.Test;
-
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Day3Test {
-
     Day3 dayThree = new Day3();
+    ArrayList<String> newList;
 
-    String TEST1 = "vJrwpWtwJgWrhcsFMMfFFhFp";
-    String TEST2 = "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL";
-    String TEST3 = "PmmdzqPrVvPwwTWBwg";
-    String TEST4 = "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn";
-    String TEST5 = "ttgJtRGJQctTZtZT";
-    String TEST6 = "CrZsJsPPZsGzwwsLwLmpwMDw";
+    /**
+     * Takes in a file and returns it into a String
+     * scoreRound() --> Part one
+     * @return the string result of the input file
+     */
+    public ArrayList<String> readFile() {
+        String filePath = "input/day3/test.txt";
+        newList = new ArrayList<>();
+        try {
+            BufferedReader input = new BufferedReader(new FileReader(filePath));
+            while (input.ready()) {
+                newList.add(input.readLine());
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return newList;
+    }
 
     // test results for the 'priority'
 
     @Test
     void test1() {
-        assertEquals('p', dayThree.findSharedItem(TEST1));
-        assertEquals(16, dayThree.priorityConversion('p'));
+        assertEquals(157, dayThree.priorityTotal(readFile()));
     }
-
-    @Test
-    void test2() {
-        assertEquals('L', dayThree.findSharedItem(TEST2));
-        assertEquals(38, dayThree.priorityConversion('L'));
-    }
-
-    @Test
-    void test3() {
-        assertEquals('P', dayThree.findSharedItem(TEST3));
-        assertEquals(42, dayThree.priorityConversion('P'));
-    }
-
-    @Test
-    void test4() {
-        assertEquals('v', dayThree.findSharedItem(TEST4));
-        assertEquals(22, dayThree.priorityConversion('v'));
-    }
-
-    @Test
-    void test5() {
-        assertEquals('t', dayThree.findSharedItem(TEST5));
-        assertEquals(20, dayThree.priorityConversion('t'));
-    }
-
-    @Test
-    void test6() {
-        assertEquals('s', dayThree.findSharedItem(TEST6));
-        assertEquals(19, dayThree.priorityConversion('s'));
-    }
-
 
 }
